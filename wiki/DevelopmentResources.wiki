@@ -1,0 +1,10 @@
+#summary Various resources that are helpful for development on this extension
+
+= Introduction =
+As with all Firefox extensions, the two main pieces of this project are XUL and Javascript.  Currently we are using SVG with JQuery to overlay the tab visualization on top of page by inserting the code into the webpage. We hope to do something more elegant with inserting the visualization into the browser chrome instead in the future.
+
+= Resources =
+
+  * JQuery Docs – http://docs.jquery.com/
+  * jQuery SVG Reference – http://keith-wood.name/svgRef.html
+  * Mozilla extension development – https://developer.mozilla.org/en/Extensions
