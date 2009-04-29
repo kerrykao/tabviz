@@ -1,0 +1,10 @@
+#questions that we don't have an answer for yet
+
+= Questions =
+
+* How to go back in the user's history within one tab?  This will be needed if you click on one of the previous accordion pages within a tab wedge.
+
+* How to preload a screenshot to figure out its dimensions in a way that the code only resumes after the image is loaded and the dimensions determined?
+
+* How to integrate the SVG visualization into the chrome instead inserting it into the current webpage?
+
