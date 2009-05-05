@@ -1,0 +1,36 @@
+#summary How to use and test the development version of the TabViz extension.
+
+
+Note:  This is about using and testing the development version of the TabViz extension only.  To really use this extension in production in the future, you will be able to find it on Mozilla's addons page:  https://addons.mozilla.org/
+
+
+
+== 1. Get the code ==
+
+Either check out the code from the trunk of the Subversion repository or download the latest archive build (http://tabviz.googlecode.com/files/tabviz.zip).
+
+Put the code somewhere on your system and remember the path.
+
+
+
+== 2. Link your Firefox to the extension ==
+
+  # Find the profile folder of your Firefox installation (e.g. C:\Users\username\AppData\Roaming\Mozilla\Firefox\Profiles\xxxxxxx.default on Windows Vista).
+  # Create a new text file with the name: tabviz@tabviz.org
+  # Put the path to the folder with the TabViz code into the created text file (e.g. C:\Users\username\tabviz).  There shouldn't be anything else in this text file besides this path.
+
+
+
+== 3. Restart Firefox ==
+
+Note: You need to close all your Firefox windows.
+
+
+
+== 4. Use the extension ==
+
+Now the extension should start logging your open tabs and make screenshots of them.  You can click on the tabviz icon in the lower right corner of the statusbar to display the tab visualization.
+
+
+
+Please send any comments and feedback to:  tab-viz@googlegroups.com
