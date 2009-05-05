@@ -7,3 +7,5 @@
   * How to preload a screenshot to figure out its dimensions in a way that the code only resumes after the image is loaded and the dimensions determined?
 
   * How to integrate the SVG visualization into the chrome instead inserting it into the current webpage?
+
+  * What is the best place to store the log file(s) and screenshots?  There were some problems with writing to the extension's directory so the log file is in a subdirectory of the Firefox profile folder now.  But I need to access the screenshots through a chrome URL, so I put them into the extension's directory.  Not sure what the best solution is.
