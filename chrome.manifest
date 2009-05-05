@@ -1,0 +1,5 @@
+content tabviz content/
+content tabviz content/ contentaccessible=yes
+overlay chrome://browser/content/browser.xul chrome://tabviz/content/tlogger.xul
+overlay chrome://browser/content/history/history-panel.xul  chrome://tabviz/content/history.xul
+skin tabviz classic/1.0 skin/
