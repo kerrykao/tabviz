@@ -149,42 +149,40 @@ function drawTab(tab, level, tab_count, tab_current, svg, available_angle, angle
 	var path = svg.createPath(); // TODO not ideal.  we only need one path object for the whole app
 	
 	var group = svg.group(tab.attr('id'), {'clip-path': 'url(#' + tab.attr('id') + '-path)'});
-	
+
+    //Need to use the image to grab its dimensions	chrome://tabviz/content/screenshots/' + page.attr('time') + '.png'	
 	var img = new Image();
-img.onload = function() { 
-//This doesn't work if the user ever changes their browser size, but it's the best we've got for now.
-	var screenshot_width = img.width;
-	var screenshot_height = img.height;
+    img.onload = function() { 
+		var screenshot_width = img.width;
+		var screenshot_height = img.height;
 	
-//Need to use the image to grab its dimensions	chrome://tabviz/content/screenshots/' + page.attr('time') + '.png'
+		// draw image
+		var thumb_height = (y1 - y3) * 1.5;
+		var thumb_width = (thumb_height * screenshot_width) / screenshot_height;
+		svg.image(group, x4, canvas_height-y1, thumb_width, thumb_height,
+			'chrome://tabviz/content/screenshots/' + page.attr('time') + '.png',
+			{id: page.attr('time'), opacity: 1});
+			
+		var defs = svg.defs();
+		svg.linearGradient(defs, 'page_title_backg', 
+    	[[0, 'white', 0], [1, 'white', 1]],
+			'0%', '0%', '0%', '100%',
+    	{gradientUnits: 'objectBoundingBox'});
 	
+		// draw background for page title
+		svg.rect(group, x3, canvas_height-y3, 100, 20, 0, 0,
+		  {fill: 'url(#page_title_backg)',
+			 transform: 'rotate(' + (-1 * (90-end_angle)) + ', ' + x3 + ', ' + (canvas_height-y3) + ') translate(0, -20)'});
 	
-	// draw image
-	var thumb_height = (y1 - y3) * 1.5;
-	var thumb_width = (thumb_height * screenshot_width) / screenshot_height;
-	svg.image(group, x4, canvas_height-y1, thumb_width, thumb_height,
-		'chrome://tabviz/content/screenshots/' + page.attr('time') + '.png',
-		{id: page.attr('time'), opacity: 1});
- };
-	img.src = 'chrome://tabviz/content/screenshots/' + page.attr('time') + '.png';
-	
-	
-	var defs = svg.defs();
-	svg.linearGradient(defs, 'page_title_backg', 
-    [[0, 'white', 0], [1, 'white', 1]],
-		'0%', '0%', '0%', '100%',
-    {gradientUnits: 'objectBoundingBox'});
-	
-	// draw background for page title
-	svg.rect(group, x3, canvas_height-y3, 100, 20, 0, 0,
-	  {fill: 'url(#page_title_backg)',
-		 transform: 'rotate(' + (-1 * (90-end_angle)) + ', ' + x3 + ', ' + (canvas_height-y3) + ') translate(0, -20)'});
-	
-	// draw page title
-	svg.text(group, x3+((pages.length-1)*20), canvas_height-y3, page.attr('page_title'),
-		{style: 'font-family: Arial, Helvetica, sans-serif; font-size: 12px;',
-		 transform: 'rotate(' + (-1 * (90-end_angle)) + ', ' + (x3) + ', ' + (canvas_height-y3) + ') ' +
+		// draw page title
+		svg.text(group, x3+((pages.length-1)*20), canvas_height-y3, page.attr('page_title'),
+			{style: 'font-family: Arial, Helvetica, sans-serif; font-size: 12px;',
+			 transform: 'rotate(' + (-1 * (90-end_angle)) + ', ' + (x3) + ', ' + (canvas_height-y3) + ') ' +
 		 						'translate(4, -5)'}); 
+	 };
+	img.src = 'chrome://tabviz/content/screenshots/' + page.attr('time') + '.png';	
+
+
 		 
 	// draw clipPath
 	var clipPath = svg.other('clipPath', {id: tab.attr('id') + '-path'});
