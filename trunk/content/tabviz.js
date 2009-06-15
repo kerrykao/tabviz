@@ -150,11 +150,13 @@ function drawTab(tab, level, tab_count, tab_current, svg, available_angle, angle
 	
 	var group = svg.group(tab.attr('id'), {'clip-path': 'url(#' + tab.attr('id') + '-path)'});
 	
-	//alert("height:" + window.content.document.documentElement.clientHeight + " width: " + window.content.document.documentElement.clientWidth);
-	//var screenshot_width = 1680;
-	//var screenshot_height = 856;
-	var screenshot_width = window.content.document.documentElement.clientWidth-25;
-	var screenshot_height = window.content.document.documentElement.clientHeight;
+	var img = new Image();
+img.onload = function() { 
+//This doesn't work if the user ever changes their browser size, but it's the best we've got for now.
+	var screenshot_width = img.width;
+	var screenshot_height = img.height;
+	
+//Need to use the image to grab its dimensions	chrome://tabviz/content/screenshots/' + page.attr('time') + '.png'
 	
 	
 	// draw image
@@ -163,6 +165,9 @@ function drawTab(tab, level, tab_count, tab_current, svg, available_angle, angle
 	svg.image(group, x4, canvas_height-y1, thumb_width, thumb_height,
 		'chrome://tabviz/content/screenshots/' + page.attr('time') + '.png',
 		{id: page.attr('time'), opacity: 1});
+ };
+	img.src = 'chrome://tabviz/content/screenshots/' + page.attr('time') + '.png';
+	
 	
 	var defs = svg.defs();
 	svg.linearGradient(defs, 'page_title_backg', 
