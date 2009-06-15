@@ -4,13 +4,14 @@
 Note:  This is about using and testing the development version of the !TabViz extension only.  To really use this extension in production in the future, you will be able to find it on Mozilla's addons page:  https://addons.mozilla.org/
 
 
+If you just want to download the latest build to try it out, you can grab it from http://tabviz.googlecode.com/files/tabviz.xpi.  This file should automatically open in Firefox, or else you can go to File->Open and find it where you downloaded it. You may need to uninstall the previous version.  
 
+You should be able to see the code in your profile folder (C:\Users\username\!AppData\Roaming\Mozilla\Firefox\Profiles\xxxxxxx.default on Windows Vista, or /Users/username/Library/Application Support/Firefox/Profiles/xxxxxxx.default on OS X) if you just want to tinker with the functionality. Proceed to steps 3-4 below. If you want to contribute to the project, follow the directions below to check out the code.
 == 1. Get the code ==
 
-Either check out the code from the trunk of the Subversion repository or download the latest archive build (http://tabviz.googlecode.com/files/tabviz.zip).
+Check out the code from the trunk of the Subversion repository.  (Start [http://code.google.com/p/tabviz/source/checkout here]).
 
 Put the code somewhere on your system and remember the path.
-
 
 
 == 2. Link your Firefox installation to the extension ==
