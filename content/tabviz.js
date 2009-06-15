@@ -150,8 +150,13 @@ function drawTab(tab, level, tab_count, tab_current, svg, available_angle, angle
 	
 	var group = svg.group(tab.attr('id'), {'clip-path': 'url(#' + tab.attr('id') + '-path)'});
 	
-	var screenshot_width = 1680;
-	var screenshot_height = 856;
+	//alert("height:" + window.content.document.documentElement.clientHeight + " width: " + window.content.document.documentElement.clientWidth);
+	//var screenshot_width = 1680;
+	//var screenshot_height = 856;
+	var screenshot_width = window.content.document.documentElement.clientWidth-25;
+	var screenshot_height = window.content.document.documentElement.clientHeight;
+	
+	
 	// draw image
 	var thumb_height = (y1 - y3) * 1.5;
 	var thumb_width = (thumb_height * screenshot_width) / screenshot_height;
