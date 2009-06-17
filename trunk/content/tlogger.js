@@ -1326,6 +1326,51 @@ function takeScreenshot(log_args) {
 		// get the last page in the selected tab
 		var page = jQuery("#" + log_args["tabId"] + " > page:last", xml_dom);
 		LOG("Taking screenshot of tab:" + log_args["tabId"] + " with page attr for time: " + page.attr("time") + " title: " + page.attr("page_title"));
+		
+		//**********New stuff
+		var b = getBrowser();
+		var win = b.getBrowserForTab(gBrowser.selectedTab).contentWindow; 
+	 	//alert("tab:" + gBrowser.selectedTab + "window: " + win);	
+	 	
+	 	//Create a new (hidden) canvas element in the tree
+	 	var canvas = document.createElement("canvas"); 
+	 	canvas.style.width="200px";
+	 	canvas.style.height="200px";
+	 	canvas.width=200;
+	 	canvas.height=200;
+      	
+      	var ctx = canvas.getContext("2d"); 	 	//this doesn't work, but why?
+      	
+//      	ctx.clearRect(0, 0, 200, 200); //x,y,w,h
+//      	ctx.save();
+//          ctx.scale(canvasW/w, canvasH/h);
+//	        ctx.drawWindow(win, xScroll, yScroll, w, h+fudge, "rgb(255,255,255)");
+//
+//      var savefile="screenshottest.png"; //obviously needs to be customized for tabviz.  Will save at top level of the firefox profile directory currently.
+//      try {
+//			netscape.security.PrivilegeManager.enablePrivilege("UniversalXPConnect");
+//			} catch (e) {
+//				alert("Permission to save file was denied.");
+//			}
+//			// get the path to the user's home (profile) directory
+//			const DIR_SERVICE = new Components.Constructor("@mozilla.org/file/directory_service;1","nsIProperties");
+//			try { 
+//				path=(new DIR_SERVICE()).get("ProfD", Components.interfaces.nsIFile).path; 
+//			} catch (e) {
+//				alert("error");
+//			}
+//			// determine the file-separator
+//			if (path.search(/\\/) != -1) {
+//				path = path + "\\";
+//			} else {
+//				path = path + "/";
+//			}
+//			savefile = path+savefile;
+//			saveCanvas(ctx.canvas, savefile); 
+//          ctx.restore();
+
+//*************
+		
 		var filename = page.attr("time") + "." + org_screengrab.Screengrab.format();
 		var nsIFile = globals.getScreenshotDirFile(filename, false);
 		
@@ -1504,3 +1549,32 @@ var public_attributes = {
 return public_attributes;
 
 }();
+
+function saveCanvas(canvas, destFile) {
+  // convert string filepath to an nsIFile
+  var file = Components.classes["@mozilla.org/file/local;1"]
+                       .createInstance(Components.interfaces.nsILocalFile);
+  file.initWithPath(destFile);
+
+  // create a data url from the canvas and then create URIs of the source and targets  
+  var io = Components.classes["@mozilla.org/network/io-service;1"]
+                     .getService(Components.interfaces.nsIIOService);
+  var source = io.newURI(canvas.toDataURL("image/png", ""), "UTF8", null);
+  var target = io.newFileURI(file)
+    
+  // prepare to save the canvas data
+  var persist = Components.classes["@mozilla.org/embedding/browser/nsWebBrowserPersist;1"]
+                          .createInstance(Components.interfaces.nsIWebBrowserPersist);
+  
+  persist.persistFlags = Components.interfaces.nsIWebBrowserPersist.PERSIST_FLAGS_REPLACE_EXISTING_FILES;
+  persist.persistFlags |= Components.interfaces.nsIWebBrowserPersist.PERSIST_FLAGS_AUTODETECT_APPLY_CONVERSION;
+  
+  // displays a download dialog (remove these 3 lines for silent download)
+  var xfer = Components.classes["@mozilla.org/transfer;1"]
+                       .createInstance(Components.interfaces.nsITransfer);
+  xfer.init(source, target, "", null, null, null, persist);
+  persist.progressListener = xfer;
+  
+  // save the canvas data to the file
+  persist.saveURI(source, null, null, null, null, file);
+}
