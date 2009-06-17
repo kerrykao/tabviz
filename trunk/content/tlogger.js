@@ -796,8 +796,32 @@ MyProgressListener.prototype.onLocationChange = function(aProgress, aRequest, aU
 			}
 			
 			// check if page reload represents a new page
-			if (jQuery("page:last", log_tab).attr("url") != win.location.href  &&  win.location.href != "about:blank") {
-				// create and append page to tab
+			if (jQuery("page:last", log_tab).attr("url") != win.location.href  &&  win.location.href != "about:blank" && win.location.href != "undefined" ) {
+			
+			//account for Google results' redirects
+			var replaceLastUrl=false;
+			try {
+				var temp=(jQuery("page:last", log_tab).attr("url")).lastIndexOf("http://www.google.com/url?sa=t");
+				if (temp==0) {
+					replaceLastUrl=true;
+				}
+				else
+				{
+					replaceLastUrl=false;
+				}
+			}
+			catch(ex)
+			{
+			replaceLastUrl=false;
+			}
+
+			if (replaceLastUrl==true)
+			{
+				//delete most recently added page because it was a Google redirect
+				jQuery("page:last", log_tab).remove();
+			}
+		
+			// create and append page to tab
 				log_tab.append(jQuery(xml_dom.createElement("page")).attr({
 					url: win.location.href,
 					time: getCurrentTimeMillis()
