@@ -8,7 +8,7 @@ As with all Firefox extensions, the two main pieces of this project are XUL and 
   * JQuery Docs – http://docs.jquery.com/
   * jQuery SVG Reference – http://keith-wood.name/svgRef.html
   * Mozilla extension development – https://developer.mozilla.org/en/Extensions
-  * Helpful in integrating canvas for saving thumnails:
+  * Helpful in integrating canvas for saving thumbnails:
     * Canvas – https://developer.mozilla.org/en/HTML/Canvas
     * Path to profile – http://www.captain.at/programming/xul/
     * Saving canvas to image file – https://developer.mozilla.org/En/Code_snippets/Canvas
