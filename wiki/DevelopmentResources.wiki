@@ -5,6 +5,8 @@ As with all Firefox extensions, the two main pieces of this project are XUL and 
 
 = Resources =
 
+  * Mozilla Spring Design Challenge Tutoring Sessions (way at the bottom of http://design-challenge.mozilla.com/spring09/)
+    * Extension Bootcamp Video (90 minutes, may be slow paced for developers, but a useful introduction) http://design-challenge.mozilla.com/spring09/#extension_bootcamp
   * JQuery Docs – http://docs.jquery.com/
   * jQuery SVG Reference – http://keith-wood.name/svgRef.html
   * Mozilla extension development – https://developer.mozilla.org/en/Extensions
