@@ -1214,7 +1214,6 @@ function handleLoadEvent(event, tab, isDOMContentLoadedEvent) {
 				}
 				
 				if (log_tab.length == 0) {
-					alert("handleLoadEvent: Expected tab, with ID " + tabId + "doesn't exist!");
 			  
 				} else if (tabId == getTabId(gBrowser.selectedTab)) { //Tget it to show the first tab opened on restore/load as viewed.
 						jQuery("#" + tabId, xml_dom).attr("status", "viewed");
@@ -1328,18 +1327,20 @@ function takeScreenshot(log_args) {
 		LOG("Taking screenshot of tab:" + log_args["tabId"] + " with page attr for time: " + page.attr("time") + " title: " + page.attr("page_title"));
 		
 		//**********New stuff
-		var b = getBrowser();
-		var win = b.getBrowserForTab(gBrowser.selectedTab).contentWindow; 
+//		var b = getBrowser();
+//		var win = b.getBrowserForTab(gBrowser.selectedTab).contentWindow; 
 	 	//alert("tab:" + gBrowser.selectedTab + "window: " + win);	
 	 	
 	 	//Create a new (hidden) canvas element in the tree
-	 	var canvas = document.createElement("canvas"); 
-	 	canvas.style.width="200px";
-	 	canvas.style.height="200px";
-	 	canvas.width=200;
-	 	canvas.height=200;
+	 	//var canvas = document.createElement("canvas"); 
+	 	
+//	 	var canvas = document.getElementById("the-canvas");
+//	 	canvas.style.width="200px";
+//	 	canvas.style.height="200px";
+//	 	canvas.width=200;
+//	 	canvas.height=200;
       	
-      	var ctx = canvas.getContext("2d"); 	 	//this doesn't work, but why?
+//      	var ctx = canvas.getContext("2d"); 	 	//this doesn't work, but why?
       	
 //      	ctx.clearRect(0, 0, 200, 200); //x,y,w,h
 //      	ctx.save();
