@@ -30,7 +30,7 @@ Note: You need to close all your Firefox windows.
 
 == 4. Use the extension ==
 
-Now the extension should start logging your open tabs and make screenshots of them.  You can click on the tabviz icon in the lower right corner of the statusbar to display the tab visualization.
+Now the extension should start logging your open tabs and make screenshots of them.  You can click on the tabviz icon in the lower left corner of the statusbar to display the tab visualization.
 
 
 
