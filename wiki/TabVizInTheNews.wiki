@@ -1,0 +1,11 @@
+#summary News references of TabViz
+
+http://arstechnica.com/open-source/news/2009/07/mozilla-design-challenge-showcases-new-browser-tab-concepts.ars
+
+
+
+== German ==
+
+http://www.heise.de/newsticker/Mozilla-praemiert-die-besten-Tab-Ideen--/meldung/142248
+
+http://www.golem.de/0907/68467.html
