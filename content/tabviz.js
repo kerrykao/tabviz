@@ -68,7 +68,7 @@ function appendViz() {
 	tabviz.svg();
 	var svg = tabviz.svg('get');
 	
-	//TODO: clicking on background toggles viz
+	//clicking on background toggles viz
 	var background=svg.rect(0, 0, '100%', '100%',  
     {fill: 'black', opacity: 0});
     
@@ -181,53 +181,60 @@ function drawTab(tab, level, tab_count, tab_current, svg, available_angle, angle
 		 						'translate(4, -5)'}); 
 	 };
 	img.src = 'chrome://tabviz/content/screenshots/' + page.attr('time') + '.png';	
-
-
 		 
 	// draw clipPath
-	var clipPath = svg.other('clipPath', {id: tab.attr('id') + '-path'});
-	svg.path(clipPath,
-		  path.moveTo(x1, canvas_height-y1)
-			.arcTo(outer_radius, outer_radius, -90, false, true, x2, canvas_height-y2)
-			.lineTo(x3, canvas_height-y3)
-			.arcTo(inner_radius, inner_radius, -90, false, false, x4, canvas_height-y4)
-			.close()
-	);
+	if (tab.attr('status') != "closed") {
+
+		var clipPath = svg.other('clipPath', {id: tab.attr('id') + '-path'});
+		svg.path(clipPath,
+			  path.moveTo(x1, canvas_height-y1)
+				.arcTo(outer_radius, outer_radius, -90, false, true, x2, canvas_height-y2)
+				.lineTo(x3, canvas_height-y3)
+				.arcTo(inner_radius, inner_radius, -90, false, false, x4, canvas_height-y4)
+				.close()
+		);
 		
-	// ---- draw path -----
-	// unviewed tab
-	if (tab.attr('status') == "unviewed") {
+		// ---- draw path -----
+		// unviewed tab
+		if (tab.attr('status') == "unviewed") {
+			svg.path(
+			  path.moveTo(x1, canvas_height-y1)
+				.arcTo(outer_radius, outer_radius, -90, false, true, x2, canvas_height-y2)
+				.lineTo(x3, canvas_height-y3)
+				.arcTo(inner_radius, inner_radius, -90, false, false, x4, canvas_height-y4)
+				.close(),
+			  {stroke: 'none', 'stroke-width': 0, fill: 'yellow', opacity: '0.15', 'shape-rendering': 'crispEdges'}
+			);
+		}
+	
 		svg.path(
 		  path.moveTo(x1, canvas_height-y1)
 			.arcTo(outer_radius, outer_radius, -90, false, true, x2, canvas_height-y2)
 			.lineTo(x3, canvas_height-y3)
 			.arcTo(inner_radius, inner_radius, -90, false, false, x4, canvas_height-y4)
 			.close(),
-		  {stroke: 'none', 'stroke-width': 0, fill: 'yellow', opacity: '0.15', 'shape-rendering': 'crispEdges'}
+		  {stroke: 'grey', 'stroke-width': 2, 'shape-rendering': 'crispEdges', fill: 'none'}
 		);
+	
+		//draw a clear wedge on top of the current one and make clicking it switch to that browser tab
+		var clickpath=svg.path(
+		  path.moveTo(x1, canvas_height-y1)
+			.arcTo(outer_radius, outer_radius, -90, false, true, x2, canvas_height-y2)
+			.lineTo(x3, canvas_height-y3)
+			.arcTo(inner_radius, inner_radius, -90, false, false, x4, canvas_height-y4)
+			.close(),
+		  {fill: 'white', opacity: '0'}
+		);	
+		jQuery(clickpath).bind('click', {tab_id: tab.attr("id")}, function(event){
+			com_dubroy_tlogger.openTab(event.data.tab_id)
+		});
+
+		//TODO: find a way to display the full tab title on hover. and complete thumbnail?
+		jQuery(clickpath).bind('mouseover', {tab_id: tab.attr("id")}, function(event){
+			var title=com_dubroy_tlogger.getTabLabel(event.data.tab_id);
+			LOG("Hovering over tab with title: " + title)
+		});	
 	}
-	
-	svg.path(
-	  path.moveTo(x1, canvas_height-y1)
-		.arcTo(outer_radius, outer_radius, -90, false, true, x2, canvas_height-y2)
-		.lineTo(x3, canvas_height-y3)
-		.arcTo(inner_radius, inner_radius, -90, false, false, x4, canvas_height-y4)
-		.close(),
-	  {stroke: 'grey', 'stroke-width': 2, 'shape-rendering': 'crispEdges', fill: 'none'}
-	);
-	
-	//draw a clear wedge on top of the current one and make clicking it switch to that browser tab
-	var clickpath=svg.path(
-	  path.moveTo(x1, canvas_height-y1)
-		.arcTo(outer_radius, outer_radius, -90, false, true, x2, canvas_height-y2)
-		.lineTo(x3, canvas_height-y3)
-		.arcTo(inner_radius, inner_radius, -90, false, false, x4, canvas_height-y4)
-		.close(),
-	  {fill: 'white', opacity: '0'}
-	);	
-	jQuery(clickpath).bind('click', {tab_id: tab.attr("id")}, function(event){
-		com_dubroy_tlogger.openTab(event.data.tab_id)
-	});
 	
 	// ---- draw page bands ----
 	pages.each(function(i) {
@@ -264,7 +271,11 @@ function drawTab(tab, level, tab_count, tab_current, svg, available_angle, angle
 	
 	var tab_children = tab.children("tab");
 	tab_children.each(function(i) {
-		drawTab(this, level+1, tab_children.length, i, svg, available_angle/tab_count, start_angle, current_tab);
+			if (tab.attr('status') == "closed")  { //TODO: make sure status closed stuff works
+			drawTab(this, level, tab_children.length, i, svg, available_angle/tab_count, start_angle, current_tab);
+			} else {
+				drawTab(this, level+1, tab_children.length, i, svg, available_angle/tab_count, start_angle, current_tab);
+			}
 	});
 }
 
@@ -300,6 +311,9 @@ function readLog() {
 
 function countTabLevels(tab) {
 	var count=1; //count current level
+	if (tab.attr('status') == "closed")   //TODO: make sure status closed stuff works
+	{ count=0;
+	}
 	var tab_children = tab.children("tab");
 	var maxcount=1;
 	tab_children.each(function(i) {

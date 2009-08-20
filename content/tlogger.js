@@ -981,10 +981,10 @@ function logTabClose(event)
 		log_write("TabClose", {"tabId":getTabId(event.target), "tabIndex":event.target._tPos});
 		
 		var xml_dom = readLog();
+		LOG("Closing " + getTabId(event.target));
 		//mark this tab as closed
-		jQuery("open_tabs", xml_dom).append(jQuery("#" + getTabId(event.target), xml_dom).attr({
-		status: "closed"
-		}));
+
+		jQuery("#" + getTabId(event.target), xml_dom).attr("status", "closed");
 		writeLog(xml_dom);
 				
 	} catch(ex) {
@@ -1544,7 +1544,8 @@ var public_attributes = {
 	"searchForSite": searchForSite,
 	
 	"openTab": openTab,
-	"getTabId": getTabId
+	"getTabId": getTabId,
+	"getTabLabel": getTabLabel
 };
 
 return public_attributes;
